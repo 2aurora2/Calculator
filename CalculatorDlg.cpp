@@ -92,6 +92,8 @@ BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(RES_BTN, &CCalculatorDlg::OnBnClickedCountBtn)
 	ON_BN_CLICKED(BACK_BTN, &CCalculatorDlg::OnBnClickedBackBtn)
 	ON_BN_CLICKED(DELETE_BTN, &CCalculatorDlg::OnBnClickedEmptyBtn)
+	ON_WM_CTLCOLOR()
+	ON_WM_NCHITTEST()
 END_MESSAGE_MAP()
 
 
@@ -133,6 +135,14 @@ BOOL CCalculatorDlg::OnInitDialog()
 	m_HisFont.CreatePointFont(180, _T("宋体"));
 	m_HisEdit.SetFont(&m_HisFont);
 
+	CString Path = L"D:\\bg.png"; // 图片路径
+	CImage img;
+	img.Load(Path);
+	HBITMAP hbmp = img.Detach();
+	CBitmap bmp;
+	bmp.Attach(hbmp);
+	m_bgBrush.CreatePatternBrush(&bmp);
+	m_hBitmap = (HBITMAP)LoadImage(NULL, Path, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -591,4 +601,26 @@ double CCalculatorDlg::CountRes()
 		stkC.pop();
 	}
 	return stkD.top();
+}
+
+
+HBRUSH CCalculatorDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  在此更改 DC 的任何特性
+
+	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	if (pWnd == this) {
+		return m_bgBrush;
+	}
+	return hbr;
+}
+
+
+LRESULT CCalculatorDlg::OnNcHitTest(CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	return CDialogEx::OnNcHitTest(point);
 }
