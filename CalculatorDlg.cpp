@@ -135,7 +135,7 @@ BOOL CCalculatorDlg::OnInitDialog()
 	m_HisFont.CreatePointFont(180, _T("宋体"));
 	m_HisEdit.SetFont(&m_HisFont);
 
-	CString Path = L"D:\\bg.png"; // 图片路径
+	CString Path = L"./res/bg.png"; // 图片路径
 	CImage img;
 	img.Load(Path);
 	HBITMAP hbmp = img.Detach();
