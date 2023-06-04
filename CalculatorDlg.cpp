@@ -9,6 +9,7 @@
 #include "afxdialogex.h"
 #include <cctype>
 #include <stack>
+#include <cmath>
 using namespace std;
 
 #ifdef _DEBUG
@@ -94,6 +95,10 @@ BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(DELETE_BTN, &CCalculatorDlg::OnBnClickedEmptyBtn)
 	ON_WM_CTLCOLOR()
 	ON_WM_NCHITTEST()
+	ON_BN_CLICKED(TAN_BTN, &CCalculatorDlg::OnBnClickedTanBtn)
+	ON_BN_CLICKED(SIN_BTN, &CCalculatorDlg::OnBnClickedSinBtn)
+	ON_BN_CLICKED(COS_BTN, &CCalculatorDlg::OnBnClickedBtn)
+	ON_BN_CLICKED(COS_BTN2, &CCalculatorDlg::OnBnClickedBtn2)
 END_MESSAGE_MAP()
 
 
@@ -135,14 +140,14 @@ BOOL CCalculatorDlg::OnInitDialog()
 	m_HisFont.CreatePointFont(180, _T("宋体"));
 	m_HisEdit.SetFont(&m_HisFont);
 
-	CString Path = L"./res/bg.png"; // 图片路径
-	CImage img;
-	img.Load(Path);
-	HBITMAP hbmp = img.Detach();
-	CBitmap bmp;
-	bmp.Attach(hbmp);
-	m_bgBrush.CreatePatternBrush(&bmp);
-	m_hBitmap = (HBITMAP)LoadImage(NULL, Path, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	//CString Path = L"./res/bg.png"; // 图片路径
+	//CImage img;
+	//img.Load(Path);
+	//HBITMAP hbmp = img.Detach();
+	//CBitmap bmp;
+	//bmp.Attach(hbmp);
+	//m_bgBrush.CreatePatternBrush(&bmp);
+	//m_hBitmap = (HBITMAP)LoadImage(NULL, Path, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -496,8 +501,22 @@ void CCalculatorDlg::OnBnClickedCountBtn()
 			SeparateStr(m_Exp);
 			UpdateData(TRUE);
 			double res = CountRes();
-			m_His.Format(m_Exp + L" = " + L"%.3f", res);
-			m_Exp = L"";
+			if (special == 0) {
+				m_His.Format(m_Exp + L" = " + L"%.3f", res);
+				m_Exp = L"";
+			}
+			else if (special == 1) {
+				m_His.Format(L"tan( "+m_Exp+L" )" + L" = " + L"%.3f", tan(res));
+				m_Exp = L"";
+			}
+			else if (special == 2) {
+				m_His.Format(L"sin( " + m_Exp + L" )" + L" = " + L"%.3f", sin(res));
+				m_Exp = L"";
+			}
+			else if (special == 3) {
+				m_His.Format(L"cos( " + m_Exp + L" )" + L" = " + L"%.3f", cos(res));
+				m_Exp = L"";
+			}
 			UpdateData(FALSE);
 		}
 	}
@@ -604,23 +623,54 @@ double CCalculatorDlg::CountRes()
 }
 
 
-HBRUSH CCalculatorDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+//HBRUSH CCalculatorDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+//{
+//	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+//
+//	// TODO:  在此更改 DC 的任何特性
+//
+//	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+//	if (pWnd == this) {
+//		return m_bgBrush;
+//	}
+//	return hbr;
+//}
+//
+//
+//LRESULT CCalculatorDlg::OnNcHitTest(CPoint point)
+//{
+//	return CDialogEx::OnNcHitTest(point);
+//}
+
+void CCalculatorDlg::OnBnClickedTanBtn()
 {
-	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
-
-	// TODO:  在此更改 DC 的任何特性
-
-	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
-	if (pWnd == this) {
-		return m_bgBrush;
-	}
-	return hbr;
+	UpdateData(TRUE);
+	special = 1;
+	UpdateData(FALSE);
 }
 
 
-LRESULT CCalculatorDlg::OnNcHitTest(CPoint point)
-{
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
-	return CDialogEx::OnNcHitTest(point);
+
+void CCalculatorDlg::OnBnClickedSinBtn()
+{
+	UpdateData(TRUE);
+	special = 2;
+	UpdateData(FALSE);
+}
+
+
+void CCalculatorDlg::OnBnClickedBtn()
+{
+	UpdateData(TRUE);
+	special = 3;
+	UpdateData(FALSE);
+}
+
+
+void CCalculatorDlg::OnBnClickedBtn2()
+{
+	UpdateData(TRUE);
+	special = 0;
+	UpdateData(FALSE);
 }

@@ -45,8 +45,9 @@ private:
 	vector<double> numbers; // 存储数码
 	vector<char> operators; // 存储操作符号
 	bool ClickTime = false; // 当前是否显示时间
-	HBITMAP m_hBitmap;
-	CBrush m_bgBrush;
+	int special = 0; // 1代表tan运算，2代表sin运算，3代表cos运算
+	/*HBITMAP m_hBitmap = 0;
+	CBrush m_bgBrush;*/
 public:
 	afx_msg void OnBnClickedSymbol();
 	afx_msg void OnBnClicked1();
@@ -70,6 +71,10 @@ public:
 	afx_msg void OnBnClickedEmptyBtn();
 	void SeparateStr(CString str); // 分离字符串式子
 	double CountRes(); // 计算式子结果
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg LRESULT OnNcHitTest(CPoint point);
+	/*afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg LRESULT OnNcHitTest(CPoint point);*/
+	afx_msg void OnBnClickedTanBtn();
+	afx_msg void OnBnClickedSinBtn();
+	afx_msg void OnBnClickedBtn();
+	afx_msg void OnBnClickedBtn2();
 };

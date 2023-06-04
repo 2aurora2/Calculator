@@ -34,6 +34,10 @@
 #define ENTER_BTN                       1023
 #define HISTORY                         1024
 #define IDC_MONTHCALENDAR1              1025
+#define COS_BTN                         1026
+#define TAN_BTN                         1027
+#define SIN_BTN                         1028
+#define COS_BTN2                        1029
 
 // Next default values for new objects
 // 
@@ -41,7 +45,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        132
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1026
+#define _APS_NEXT_CONTROL_VALUE         1027
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
